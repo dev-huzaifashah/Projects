@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Login Page</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .login-container {
+    background: rgba(255, 215, 0, 0.05);
+    border: 2px solid gold;
+    border-radius: 15px;
+    padding: 40px 50px;
+    text-align: center;
+    box-shadow: 0 0 20px gold;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .login-container h2 {
+    color: gold;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px gold;
+  }
+
+  .login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    border-bottom: 2px solid gold;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+
+  .login-container input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid white;
+  }
+
+  #login-btn {
+    background: gold;
+    border: none;
+    color: black;
+    font-weight: bold;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.3s ease, background 0.3s ease;
+    position: relative;
+  }
+
+  #login-btn:hover {
+    background: white;
+    color: black;
+  }
+
+  @keyframes glow {
+    0% { box-shadow: 0 0 5px gold; }
+    50% { box-shadow: 0 0 20px gold; }
+    100% { box-shadow: 0 0 5px gold; }
+  }
+
+  .login-container {
+    animation: glow 2s infinite;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Login Page</h2>
+  <input type="text" id="username" placeholder="Enter Username">
+  <input type="password" id="password" placeholder="Enter Password">
+  <br>
+  <button id="login-btn">Login</button>
+</div>
+
+<script>
+  const correctUser = "Huzaifa Shah";
+  const correctPass = "123456890";
+  const loginBtn = document.getElementById("login-btn");
+  const userInput = document.getElementById("username");
+  const passInput = document.getElementById("password");
+  let dodging = false;
+
+  function checkCredentials() {
+    const user = userInput.value.trim();
+    const pass = passInput.value.trim();
+    return user === correctUser && pass === correctPass;
+  }
+
+  loginBtn.addEventListener("mouseenter", () => {
+    if (!checkCredentials()) {
+      dodging = true;
+      moveButton();
+    }
+  });
+
+  loginBtn.addEventListener("mouseleave", () => {
+    dodging = false;
+  });
+
+  loginBtn.addEventListener("click", () => {
+    if (checkCredentials()) {
+      alert("✅ Login Successful! Welcome, Huzaifa Shah!");
+    } else {
+      alert("❌ Wrong Username or Password!");
+    }
+  });
+
+  function moveButton() {
+    if (!dodging) return;
+    const container = document.querySelector(".login-container");
+    const maxX = container.clientWidth - loginBtn.clientWidth - 40;
+    const moveX = Math.random() * maxX - maxX / 2;
+    loginBtn.style.transform = `translateX(${moveX}px)`;
+    setTimeout(moveButton, 600);
+  }
+
+  userInput.addEventListener("input", () => {
+    if (checkCredentials()) resetButton();
+  });
+
+  passInput.addEventListener("input", () => {
+    if (checkCredentials()) resetButton();
+  });
+
+  function resetButton() {
+    dodging = false;
+    loginBtn.style.transform = "translateX(0)";
+  }
+</script>
+
+</body>
+</html>
