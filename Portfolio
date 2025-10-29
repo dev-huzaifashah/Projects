@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio | Huzaifa Shah</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+      --accent: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff0000);
+    }
+
+    body.light {
+      --bg-color: #fff;
+      --text-color: #000;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      left: 0;
+      bottom: -5px;
+      transition: 0.4s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--text-color);
+      color: var(--text-color);
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--text-color);
+      color: var(--bg-color);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--text-color);
+      transition: 0.3s;
+    }
+
+    /* Slider Section */
+    .slider {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 80px 40px;
+      min-height: 80vh;
+      text-align: left;
+      transition: opacity 0.4s ease;
+    }
+
+    .slider.fade-out {
+      opacity: 0;
+    }
+
+    .slider .image-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Rotating multicolor border */
+    .slider .image-container::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 6px;
+      background: conic-gradient(
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #8b00ff,
+        #ff0000
+      );
+      mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black 0);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black 0);
+      animation: rotateBorder 4s linear infinite;
+      z-index: 1;
+    }
+
+    .slider .image-container img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes rotateBorder {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .slider .text {
+      max-width: 500px;
+      margin-top: 30px;
+    }
+
+    .slider .text h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .typing {
+      border-right: 2px solid var(--text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .slider p {
+      margin-top: 15px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 30px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        padding: 15px;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .theme-toggle {
+        display: none;
+      }
+
+      .slider {
+        flex-direction: column;
+        text-align: center;
+        padding: 50px 20px;
+      }
+
+      .slider .text {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">HuzaifaShah.Dev</div>
+    <ul id="navMenu">
+      <li><a data-page="home">Home</a></li>
+      <li><a data-page="about">About Me</a></li>
+      <li><a data-page="resume">Resume</a></li>
+      <li><a data-page="portfolio">Portfolio</a></li>
+      <li><a data-page="contact">Contact Me</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    <button class="theme-toggle" id="themeBtn">Light Mode</button>
+  </nav>
+
+  <!-- Slider Section (content changes dynamically) -->
+  <section class="slider" id="sliderContent">
+    <div class="image-container">
+      <img src="image/image.jpg" alt="Profile Image">
+    </div>
+    <div class="text">
+      <h1>
+        Hi, I am <br>
+        <span class="typing" id="typingText"></span>
+      </h1>
+      <p>
+        I specialize in creating visually appealing and user-friendly web interfaces.
+        Passionate about combining creativity with functionality to deliver seamless
+        digital experiences.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    // Theme Toggle
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      themeBtn.textContent = document.body.classList.contains('light')
+        ? 'Dark Mode'
+        : 'Light Mode';
+    });
+
+    // Mobile Menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+
+    // Typing Animation (Home only)
+    const typingText = document.getElementById("typingText");
+    const words = ["Frontend Developer", "UI/UX Designer"];
+    let i = 0, j = 0, deleting = false;
+    function type() {
+      if (!typingText) return;
+      const current = words[i];
+      if (!deleting && j < current.length) {
+        typingText.textContent = current.substring(0, j + 1);
+        j++;
+        setTimeout(type, 100);
+      } else if (deleting && j > 0) {
+        typingText.textContent = current.substring(0, j - 1);
+        j--;
+        setTimeout(type, 60);
+      } else if (!deleting && j === current.length) {
+        deleting = true;
+        setTimeout(type, 1000);
+      } else if (deleting && j === 0) {
+        deleting = false;
+        i = (i + 1) % words.length;
+        setTimeout(type, 500);
+      }
+    }
+    type();
+
+    // Dynamic Page Content
+    const slider = document.getElementById("sliderContent");
+    const pages = {
+      home: `
+        <div class="image-container">
+          <img src="image/image.jpg" alt="Profile Image">
+        </div>
+        <div class="text">
+          <h1>Hi, I am <br><span class="typing" id="typingText"></span></h1>
+          <p>I specialize in creating visually appealing and user-friendly web interfaces. Passionate about combining creativity with functionality to deliver seamless digital experiences.</p>
+        </div>`,
+      about: `
+        <div class="text" style="max-width:600px;">
+          <h1>About Me</h1>
+          <p>I’m Huzaifa Shah, a frontend developer and UI/UX designer with a passion for crafting elegant, responsive, and user-focused web experiences. I love turning ideas into interactive, visually engaging designs that perform beautifully across all devices.</p>
+        </div>`,
+      resume: `
+        <div class="text" style="max-width:600px;">
+          <h1>Resume</h1>
+          <p><strong>Experience:</strong><br>Frontend Developer at XYZ Agency (2023–Present)<br>Intern UI Designer at ABC Studio (2022)</p>
+          <p><strong>Education:</strong><br>Bachelor’s in Computer Science — COMSATS University</p>
+        </div>`,
+      portfolio: `
+        <div class="text" style="max-width:600px;">
+          <h1>Portfolio</h1>
+          <p>Some of my featured works include modern eCommerce websites, portfolio pages, and custom UI dashboards. (You can later add images or project cards here!)</p>
+        </div>`,
+      contact: `
+        <div class="text" style="max-width:600px;">
+          <h1>Contact Me</h1>
+          <p>Feel free to reach out via email or connect on LinkedIn.</p>
+          <p><strong>Email:</strong> example@gmail.com<br><strong>LinkedIn:</strong> linkedin.com/in/huzaifashah</p>
+        </div>`
+    };
+
+    // Navigation click event
+    document.querySelectorAll("nav ul li a").forEach(link => {
+      link.addEventListener("click", e => {
+        const page = e.target.getAttribute("data-page");
+        slider.classList.add("fade-out");
+        setTimeout(() => {
+          slider.innerHTML = pages[page];
+          slider.classList.remove("fade-out");
+          if (page === "home") type(); // restart typing animation
+        }, 400);
+      });
+    });
+  </script>
+</body>
+</html>
