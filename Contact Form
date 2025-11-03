@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animated Contact Form</title>
+  <style>
+    /* --- Global Styles --- */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2em;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      margin-bottom: 1em;
+      color: #ffcb6b;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 1.5em 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-bottom: 2px solid #fff;
+      background: transparent;
+      color: #fff;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    label {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      color: #ccc;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+
+    input:focus + label,
+    input:valid + label,
+    textarea:focus + label,
+    textarea:valid + label {
+      top: -15px;
+      font-size: 12px;
+      color: #ffcb6b;
+    }
+
+    button {
+      background: #ffcb6b;
+      color: #333;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    #status {
+      margin-top: 1em;
+      font-size: 0.9em;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Contact Us</h1>
+    <form id="contact-form">
+      <div class="input-group">
+        <input type="text" id="name" name="name" required>
+        <label for="name">Your Name</label>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" name="email" required>
+        <label for="email">Your Email</label>
+      </div>
+
+      <div class="input-group">
+        <textarea id="message" name="message" required></textarea>
+        <label for="message">Your Message</label>
+      </div>
+
+      <button type="submit">Send Message</button>
+      <p id="status"></p>
+    </form>
+  </div>
+
+  <!-- EmailJS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS
+    (function() {
+      emailjs.init("17kPSQqYOcjtOqmkV"); // 🔑 Replace with your actual EmailJS public key
+    })();
+
+    // Form Submission
+    const form = document.getElementById("contact-form");
+    const statusMsg = document.getElementById("status");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      statusMsg.textContent = "Sending...";
+      statusMsg.style.color = "#ffcb6b";
+
+      emailjs.sendForm("service_3epezql","template_do7s1vk", this)
+        .then(() => {
+          statusMsg.textContent = "✅ Message sent successfully!";
+          statusMsg.style.color = "#00ff99";
+          form.reset();
+        }, (err) => {
+          console.error("Error:", err);
+          statusMsg.textContent = "❌ Failed to send message. Try again later.";
+          statusMsg.style.color = "#ff4d4d";
+        });
+    });
+  </script>
+
+</body>
+</html>
