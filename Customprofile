@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Profile Creator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* LEFT SIDE (INPUT) */
+    .input-side {
+      width: 50%;
+      padding: 30px;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+
+    .input-side h2 {
+      margin-bottom: 20px;
+    }
+
+    .input-side label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .input-side input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    .input-side button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* RIGHT SIDE (OUTPUT) */
+    .output-side {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #eaeaea;
+    }
+
+    .profile-card {
+      width: 300px;
+      padding: 20px;
+      text-align: center;
+      border: 4px solid #000;
+      background: #fff;
+    }
+
+    .profile-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .profile-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .profile-card p {
+      margin: 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- INPUT SIDE -->
+  <div class="input-side">
+    <h2>Enter Profile Data</h2>
+
+    <label>Name:</label>
+    <input type="text" id="nameInput">
+
+    <label>Job Title:</label>
+    <input type="text" id="jobInput">
+
+    <label>Image URL:</label>
+    <input type="text" id="imageInput">
+
+    <label>Background Color:</label>
+    <input type="color" id="bgColorInput">
+
+    <label>Border Color:</label>
+    <input type="color" id="borderColorInput">
+
+    <button onclick="updateProfile()">Update Profile</button>
+  </div>
+
+  <!-- OUTPUT SIDE -->
+  <div class="output-side">
+    <div class="profile-card" id="profileCard">
+      <img id="profileImage" src="https://via.placeholder.com/120">
+      <h3 id="profileName">Your Name</h3>
+      <p id="profileJob">Job Title</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function updateProfile() {
+    const name = document.getElementById("nameInput").value;
+    const job = document.getElementById("jobInput").value;
+    const image = document.getElementById("imageInput").value;
+    const bgColor = document.getElementById("bgColorInput").value;
+    const borderColor = document.getElementById("borderColorInput").value;
+
+    if (name) document.getElementById("profileName").innerText = name;
+    if (job) document.getElementById("profileJob").innerText = job;
+    if (image) document.getElementById("profileImage").src = image;
+
+    document.getElementById("profileCard").style.backgroundColor = bgColor;
+    document.getElementById("profileCard").style.borderColor = borderColor;
+  }
+</script>
+
+</body>
+</html>
