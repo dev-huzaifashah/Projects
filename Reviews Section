@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Review Section</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f2f4f7;
+            padding: 20px;
+        }
+
+        .reviews-section {
+            max-width: 700px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .filters button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 20px;
+            background: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .filters button.active,
+        .filters button:hover {
+            background: #007BFF;
+            color: white;
+        }
+
+        .review {
+            background: #fafafa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .review-author {
+            font-weight: bold;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .review-rating {
+            color: #FFD700;
+            margin-bottom: 6px;
+        }
+
+        .star-input {
+            display: flex;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .star-input span {
+            color: #ccc;
+        }
+
+        .star-input span.active {
+            color: #FFD700;
+        }
+
+        form {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, textarea, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        form button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="reviews-section">
+    <h2>Customer Reviews</h2>
+
+    <div class="filters">
+        <button class="active" onclick="filterReviews('all', this)">All</button>
+        <button onclick="filterReviews(5, this)">5 ★</button>
+        <button onclick="filterReviews(4, this)">4 ★</button>
+        <button onclick="filterReviews(3, this)">3 ★</button>
+        <button onclick="filterReviews(2, this)">2 ★</button>
+        <button onclick="filterReviews(1, this)">1 ★</button>
+    </div>
+
+    <div id="reviews"></div>
+
+    <h3>Leave a Review</h3>
+    <form id="reviewForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+
+        <div class="star-input" id="starInput">
+            <span data-value="1">★</span>
+            <span data-value="2">★</span>
+            <span data-value="3">★</span>
+            <span data-value="4">★</span>
+            <span data-value="5">★</span>
+        </div>
+
+        <textarea id="comment" placeholder="Write your review..." required></textarea>
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+<script>
+    const reviewsContainer = document.getElementById("reviews");
+    const stars = document.querySelectorAll("#starInput span");
+    const form = document.getElementById("reviewForm");
+    let selectedRating = 0;
+
+    /* DEFAULT REVIEWS WITH DIFFERENT DATES */
+    const defaultReviews = [
+        { name: "Alex M.", rating: 5, comment: "Absolutely loved it! Super smooth experience.", date: "2026-01-02" },
+        { name: "Sarah K.", rating: 4, comment: "Great quality and fast delivery.", date: "2025-12-28" },
+        { name: "Daniel R.", rating: 3, comment: "Good product but could be improved.", date: "2025-12-20" },
+        { name: "Emma L.", rating: 5, comment: "Exceeded my expectations. Highly recommended!", date: "2025-12-15" },
+        { name: "Chris P.", rating: 2, comment: "Not bad, but I faced some issues.", date: "2025-12-10" },
+        { name: "Nina W.", rating: 4, comment: "Very useful and easy to use.", date: "2025-12-05" }
+    ];
+
+    function renderReview({ name, rating, comment, date }) {
+        const review = document.createElement("div");
+        review.className = "review";
+        review.dataset.rating = rating;
+
+        const formattedDate = new Date(date).toLocaleDateString();
+
+        review.innerHTML = `
+            <div class="review-header">
+                <span class="review-author">${name}</span>
+                <span class="review-date">${formattedDate}</span>
+            </div>
+            <div class="review-rating">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
+            <p>${comment}</p>
+        `;
+
+        reviewsContainer.appendChild(review);
+    }
+
+    defaultReviews.forEach(renderReview);
+
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            selectedRating = star.dataset.value;
+            updateStars(selectedRating);
+        });
+    });
+
+    function updateStars(rating) {
+        stars.forEach(star => {
+            star.classList.toggle("active", star.dataset.value <= rating);
+        });
+    }
+
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        if (!selectedRating) return alert("Please select a rating");
+
+        renderReview({
+            name: document.getElementById("name").value,
+            rating: selectedRating,
+            comment: document.getElementById("comment").value,
+            date: new Date()
+        });
+
+        form.reset();
+        selectedRating = 0;
+        updateStars(0);
+    });
+
+    function filterReviews(value, btn) {
+        document.querySelectorAll(".review").forEach(review => {
+            review.style.display =
+                value === "all" || review.dataset.rating == value
+                    ? "block"
+                    : "none";
+        });
+
+        document.querySelectorAll(".filters button")
+            .forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    }
+</script>
+
+</body>
+</html>
