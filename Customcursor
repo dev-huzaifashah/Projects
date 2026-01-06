@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Cursor Effect</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+      cursor: none;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #020617;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(120deg, #38bdf8, #6366f1);
+      color: white;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-outline {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, background 0.3s ease;
+    }
+
+    .cursor.hover {
+      transform: translate(-50%, -50%) scale(1.8);
+    }
+
+    .cursor-outline.hover {
+      transform: translate(-50%, -50%) scale(2.5);
+      background: rgba(99, 102, 241, 0.15);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Custom Cursor</h1>
+    <p>Hover the button to see the magic ✨</p>
+    <button>Hover Me</button>
+  </div>
+
+  <!-- Cursor Elements -->
+  <div class="cursor"></div>
+  <div class="cursor-outline"></div>
+
+  <script>
+    const cursor = document.querySelector(".cursor");
+    const outline = document.querySelector(".cursor-outline");
+
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+
+    window.addEventListener("mousemove", e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      cursor.style.left = mouseX + "px";
+      cursor.style.top = mouseY + "px";
+    });
+
+    function animate() {
+      outlineX += (mouseX - outlineX) * 0.15;
+      outlineY += (mouseY - outlineY) * 0.15;
+
+      outline.style.left = outlineX + "px";
+      outline.style.top = outlineY + "px";
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    /* Hover Effects */
+    document.querySelectorAll("button, a").forEach(el => {
+      el.addEventListener("mouseenter", () => {
+        cursor.classList.add("hover");
+        outline.classList.add("hover");
+      });
+
+      el.addEventListener("mouseleave", () => {
+        cursor.classList.remove("hover");
+        outline.classList.remove("hover");
+      });
+    });
+  </script>
+
+</body>
+</html>
