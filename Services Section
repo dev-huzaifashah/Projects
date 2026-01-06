@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Responsive Services Section with Hidden Theme Switcher</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px 60px;
+      transition: background 0.5s;
+      background: #020617; /* default fallback */
+      color: white;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      font-weight: 700;
+      color: var(--text-color, #fff);
+      text-align: center;
+      user-select: none;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .service-card {
+      background: var(--card-bg, #1e293b);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px var(--hover-shadow, rgba(56,189,248,0.4));
+    }
+
+    .service-card i {
+      font-size: 40px;
+      color: var(--icon-color, #38bdf8);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, color 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .service-card:hover i {
+      transform: scale(1.3) rotate(15deg);
+      color: var(--icon-hover-color, #6366f1);
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: var(--text-color, #fff);
+    }
+
+    .service-card p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--subtext-color, #94a3b8);
+      flex-grow: 1;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      body {
+        padding: 30px 15px 50px;
+      }
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+      }
+      .services {
+        gap: 20px;
+      }
+      .service-card {
+        padding: 25px 15px;
+      }
+      .service-card h3 {
+        font-size: 18px;
+      }
+      .service-card p {
+        font-size: 13px;
+      }
+      .service-card i {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 15px 40px;
+      }
+      h1 {
+        font-size: 1.75rem;
+        margin-bottom: 25px;
+      }
+      .services {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .service-card {
+        padding: 20px 15px;
+      }
+      .service-card h3 {
+        font-size: 17px;
+      }
+      .service-card p {
+        font-size: 13px;
+      }
+      .service-card i {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+    }
+  </style>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+</head>
+<body>
+  <h1>Our Services</h1>
+
+  <!-- Services Section -->
+  <div class="services">
+    <div class="service-card">
+      <i class="fas fa-laptop-code"></i>
+      <h3>Web Development</h3>
+      <p>Responsive & interactive websites that look amazing on any device.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-paint-brush"></i>
+      <h3>UI/UX Design</h3>
+      <p>Modern, clean, user-friendly interfaces for better engagement.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-mobile-alt"></i>
+      <h3>Mobile Apps</h3>
+      <p>Seamless mobile app experiences with smooth animations.</p>
+    </div>
+    <div class="service-card">
+      <i class="fas fa-cogs"></i>
+      <h3>Software Development</h3>
+      <p>Custom software solutions tailored to your business needs.</p>
+    </div>
+  </div>
+
+  <script>
+    const themes = {
+      blue: {
+        '--card-bg': '#1e293b',
+        '--hover-shadow': 'rgba(56,189,248,0.4)',
+        '--icon-color': '#38bdf8',
+        '--icon-hover-color': '#0ea5e9',
+        '--text-color': '#fff',
+        '--subtext-color': '#94a3b8',
+        'body-bg': '#020617'
+      },
+      purple: {
+        '--card-bg': '#1e1b3c',
+        '--hover-shadow': 'rgba(163, 106, 255,0.4)',
+        '--icon-color': '#a36aff',
+        '--icon-hover-color': '#8b4cff',
+        '--text-color': '#fff',
+        '--subtext-color': '#c4b5fd',
+        'body-bg': '#0f0723'
+      },
+      green: {
+        '--card-bg': '#1b3325',
+        '--hover-shadow': 'rgba(34,197,94,0.4)',
+        '--icon-color': '#22c55e',
+        '--icon-hover-color': '#16a34a',
+        '--text-color': '#fff',
+        '--subtext-color': '#a7f3d0',
+        'body-bg': '#021a0d'
+      },
+      gradient: {
+        '--card-bg': 'linear-gradient(135deg,#38bdf8,#6366f1,#22c55e)',
+        '--hover-shadow': 'rgba(99,102,241,0.4)',
+        '--icon-color': '#fff',
+        '--icon-hover-color': '#fff',
+        '--text-color': '#fff',
+        '--subtext-color': '#f0f0f0',
+        'body-bg': '#020617'
+      }
+    };
+
+    function setTheme(name) {
+      const theme = themes[name];
+      if (!theme) return;
+      for (let prop in theme) {
+        if (prop === 'body-bg') {
+          document.body.style.background = theme[prop];
+        } else {
+          document.documentElement.style.setProperty(prop, theme[prop]);
+        }
+      }
+    }
+
+    // Default theme
+    setTheme('gradient');
+  </script>
+</body>
+</html>
